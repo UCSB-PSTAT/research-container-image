@@ -8,5 +8,7 @@ RUN R -e "install.packages(c('assist', 'date', 'geosphere', 'glmnet',  'tictoc',
 
 RUN R -e "install.packages('https://cran.r-project.org/src/contrib/Archive/zipcode/zipcode_1.0.tar.gz', repos=NULL, type='source', Ncpus = parallel::detectCores())"
 
+RUN mamba install -y -c pytorch transformers 
+
 USER $NB_USER
 
