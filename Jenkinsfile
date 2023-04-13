@@ -7,7 +7,7 @@ pipeline {
         IMAGE_NAME = 'research'
     }
     stages {
-        stage('Build Test Deploy') {
+        stage('$IMAGE_NAME Pipeline') {
             agent {
                 label 'jupyter'
             }
