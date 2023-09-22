@@ -7,13 +7,14 @@ pipeline {
         IMAGE_NAME = 'research'
     }
     stages {
-        stage('Build/Test/Deploy Pipeline') {
+        stage('Build Test Deploy Standard Image') {
             agent {
                 label 'jupyter'
             }
             stages{
                 stage('Build') {
                     steps {
+                        echo "NODE_NAME = ${env.NODE_NAME}"
                         sh 'podman build -t localhost/$IMAGE_NAME --pull --force-rm --no-cache .'
                      }
                 }
