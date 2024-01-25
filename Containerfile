@@ -4,7 +4,7 @@ LABEL maintainer="LSIT Systems <lsitops@ucsb.edu>"
 
 USER root
 
-RUN apt install -y libgdal-dev libproj-dev && apt clean
+RUN apt install -y libgdal-dev libproj-dev libmpfr-dev && apt clean
 
 # PrevMap requires Terra and raster, which fail to install inside R. So install with mamba instead:
 RUN mamba install r-raster r-terra
