@@ -33,7 +33,7 @@ pipeline {
                         sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME which rstudio'
                         sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -q -e "getRversion() >= \\"4.1.3\\"" | tee /dev/stderr | grep -q "TRUE"'
                         sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME python -c "import pandas, numpy, tqdm, transformers, torch; print(torch.rand(5,3)); from transformers import pipeline; print(pipeline(\\"sentiment-analysis\\")(\\"I love you\\"))"'
-                        sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"assist\");library(\"arrow\");library(\"date\");library(\"filling\");library(\"geosphere\");library(\"glmnet\");library(\"tictoc\");library(\"expm\");library(\"imputeTS\");library(\"softImpute\");library(\"zipcode\");library(\"PrevMap\")"'
+                        sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"assist\");library(\"arrow\");library(\"date\");library(\"filling\");library(\"geosphere\");library(\"ggraph\");library(\"glmnet\");library(\"here\");library(\"expm\");library(\"igraph\");library(\"imputeTS\");library(\"tictoc\");library(\"tidyverse\");library(\"tidygraph\");library(\"softImpute\");library(\"zipcode\");library(\"PrevMap\")"'
                         sh 'podman run -d --name=$IMAGE_NAME --rm --pull=never -p 8888:8888 localhost/$IMAGE_NAME start-notebook.sh --NotebookApp.token="jenkinstest"'
                         sh 'sleep 10 && curl -v http://localhost:8888/rstudio?token=jenkinstest 2>&1 | grep -P "HTTP\\S+\\s[1-3][0-9][0-9]\\s+[\\w\\s]+\\s*$"'
                         sh 'curl -v http://localhost:8888/lab?token=jenkinstest 2>&1 | grep -P "HTTP\\S+\\s200\\s+[\\w\\s]+\\s*$"'
