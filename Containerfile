@@ -27,7 +27,8 @@ RUN mamba install \
     r-tictoc \
     r-tidygraph \
     r-softimpute \
-    tensorflow-cpu
+    tensorflow-cpu \
+    tf-keras
 
 RUN R -e "install.packages(c('filling', 'PrevMap', 'softImpute'), repos = 'https://cloud.r-project.org/', Ncpus = parallel::detectCores())"
 
