@@ -31,6 +31,7 @@ pipeline {
                 stage('Test') {
                     steps {
                         sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME which rstudio'
+                        sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME rstudio --help'
                         sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -q -e "getRversion() >= \\"4.1.3\\"" | tee /dev/stderr | grep -q "TRUE"'
                         sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME python -c "import keras, pandas, numpy, tensorflow, tqdm, transformers, torch; print(torch.rand(5,3)); from transformers import pipeline; print(pipeline(\\"sentiment-analysis\\")(\\"I love you\\"))"'
                         sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"assist\");library(\"arrow\");library(\"date\");library(\"filling\");library(\"geosphere\");library(\"ggraph\");library(\"glmnet\");library(\"here\");library(\"expm\");library(\"igraph\");library(\"imputeTS\");library(\"tictoc\");library(\"tidyverse\");library(\"tidygraph\");library(\"softImpute\");library(\"zipcode\");library(\"PrevMap\");library(\"keras\");library(\"tensorflow\")"'
