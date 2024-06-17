@@ -36,8 +36,5 @@ RUN R -e "install.packages('https://cran.r-project.org/src/contrib/Archive/zipco
 
 RUN pip install 'transformers[torch]'
 
-# See bug: https://github.com/rstudio/rstudio/issues/14060
-RUN echo "rsession-ld-library-path=/opt/conda/lib" >> /etc/rstudio/rserver.conf
-
 USER $NB_USER
 
