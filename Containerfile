@@ -29,14 +29,13 @@ RUN mamba install \
     r-tictoc \
     r-tidygraph \
     r-softimpute \
+    transformers \
     tensorflow-cpu \
     tf-keras
 
-RUN R -e "install.packages(c('PrevMap', 'softImpute'), repos = 'https://cloud.r-project.org/', Ncpus = parallel::detectCores())"
+RUN R -e "install.packages(c('PrevMap'), repos = 'https://cloud.r-project.org/', Ncpus = parallel::detectCores())"
 
 RUN R -e "install.packages('https://cran.r-project.org/src/contrib/Archive/zipcode/zipcode_1.0.tar.gz', repos=NULL, type='source', Ncpus = parallel::detectCores())"
-
-RUN pip install 'transformers[torch]'
 
 USER $NB_USER
 
