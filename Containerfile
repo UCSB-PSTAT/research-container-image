@@ -11,6 +11,7 @@ RUN mamba install \
     cargo-llvm-cov \
     clarabel \
     keras \
+    pytorch \
     r::r-assist \
     r-arrow \
     r::r-date \
