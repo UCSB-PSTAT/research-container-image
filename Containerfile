@@ -38,7 +38,7 @@ RUN R -e "install.packages(c('PrevMap'), repos = 'https://cloud.r-project.org/',
 
 RUN R -e "install.packages('https://cran.r-project.org/src/contrib/Archive/zipcode/zipcode_1.0.tar.gz', repos=NULL, type='source', Ncpus = parallel::detectCores())"
 
-RUN /usr/local/bin/fix-permissions "${CONDA_DIR}" || true && chown -R jovyan:jovyan /home/jovyan
+RUN /usr/local/bin/fix-permissions "${CONDA_DIR}" || true && chown -R jovyan:users /home/jovyan
 
 USER $NB_USER
 
