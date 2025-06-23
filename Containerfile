@@ -34,8 +34,6 @@ RUN mamba install \
     tensorflow-cpu \
     tf-keras
 
-RUN R -e "install.packages(c('PrevMap'), repos = 'https://cloud.r-project.org/', Ncpus = parallel::detectCores())"
-
 RUN R -e "install.packages('https://cran.r-project.org/src/contrib/Archive/zipcode/zipcode_1.0.tar.gz', repos=NULL, type='source', Ncpus = parallel::detectCores())"
 
 RUN /usr/local/bin/fix-permissions "${CONDA_DIR}" || true && chown -R jovyan:users /home/jovyan
