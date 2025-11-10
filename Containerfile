@@ -6,7 +6,7 @@ USER root
 
 RUN apt update -y && apt install -y libgdal-dev libproj-dev libmpfr-dev && apt clean
 
-RUN pip install tensorflow tensorflow-cpu
+RUN pip install tensorflow tensorflow-cpu tf-keras
 
 # PrevMap requires Terra and raster, which fail to install inside R. So install with mamba instead:
 RUN mamba install \
@@ -33,7 +33,6 @@ RUN mamba install \
     r-tidygraph \
     r-softimpute \
     transformers \
-    tf-keras \
     yt-dlp
 
 RUN R -e "install.packages('https://cran.r-project.org/src/contrib/Archive/zipcode/zipcode_1.0.tar.gz', repos=NULL, type='source', Ncpus = parallel::detectCores())"
