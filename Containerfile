@@ -6,6 +6,8 @@ USER root
 
 RUN apt update -y && apt install -y libgdal-dev libproj-dev libmpfr-dev && apt clean
 
+RUN pip install tensorflow-cpu
+
 # PrevMap requires Terra and raster, which fail to install inside R. So install with mamba instead:
 RUN mamba install \
     cargo-llvm-cov \
@@ -31,7 +33,6 @@ RUN mamba install \
     r-tidygraph \
     r-softimpute \
     transformers \
-    tensorflow-cpu \
     tf-keras \
     yt-dlp
 
