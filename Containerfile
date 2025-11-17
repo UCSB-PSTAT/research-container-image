@@ -9,7 +9,7 @@ RUN apt update -y && apt install -y libgdal-dev libproj-dev libmpfr-dev && apt c
 RUN pip install tensorflow tensorflow-cpu tf-keras
 
 # PrevMap requires Terra and raster, which fail to install inside R. So install with mamba instead:
-RUN mamba install \
+RUN conda install \
     cargo-llvm-cov \
     clarabel \
     keras \
