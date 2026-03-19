@@ -33,7 +33,7 @@ RUN conda install \
     yt-dlp
 
 # Install packages from CRAN to avoid conda downgrading R version.
-RUN R -e "install.packages(c('assist','date','imputets'), repos = 'https://cloud.r-project.org/', Ncpus = parallel::detectCores())"
+RUN R -e "install.packages(c('assist','date','imputeTS'), repos = 'https://cloud.r-project.org/', Ncpus = parallel::detectCores())"
 
 RUN R -e "install.packages('https://cran.r-project.org/src/contrib/Archive/zipcode/zipcode_1.0.tar.gz', repos=NULL, type='source', Ncpus = parallel::detectCores())"
 
