@@ -38,9 +38,35 @@ pipeline {
                         container('podman') {
                             sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME which rstudio'
                             sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME /usr/lib/rstudio-server/bin/rserver --help'
-                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -q -e "getRversion() >= \\"4.1.3\\"" | tee /dev/stderr | grep -q "TRUE"'
-                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME python -c "import keras, pandas, numpy, tensorflow, tqdm, transformers, torch; print(torch.rand(5,3)); from transformers import pipeline; print(pipeline(\\"sentiment-analysis\\")(\\"I love you\\"))"'
-                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"assist\");library(\"arrow\");library(\"date\");library(\"geosphere\");library(\"ggraph\");library(\"glmnet\");library(\"here\");library(\"expm\");library(\"igraph\");library(\"imputeTS\");library(\"tictoc\");library(\"tidyverse\");library(\"tidygraph\");library(\"softImpute\");library(\"zipcode\");library(\"keras\");library(\"tensorflow\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -q -e "getRversion() >= \\"4.5.2\\"" | tee /dev/stderr | grep -q "TRUE"'
+                            // Python package tests
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME python -c "import keras"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME python -c "import pandas"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME python -c "import numpy"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME python -c "import tensorflow"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME python -c "import tqdm"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME python -c "import transformers"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME python -c "import torch; print(torch.rand(5,3))"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME python -c "from transformers import pipeline; print(pipeline(\\"sentiment-analysis\\")(\\"I love you\\"))"'
+                            // R package testing
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"assist\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"arrow\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"date\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"expm\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"geosphere\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"ggraph\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"glmnet\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"here\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"igraph\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"imputeTS\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"keras\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"softImpute\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"tensorflow\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"tictoc\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"tidyverse\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"tidygraph\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"zipcode\")"'
+                            // Container start tests
                             sh 'podman run -d --name=$IMAGE_NAME --rm --pull=never -p 8888:8888 localhost/$IMAGE_NAME start-notebook.sh --NotebookApp.token="jenkinstest"'
                             sh 'sleep 10 && curl -v http://localhost:8888/rstudio?token=jenkinstest 2>&1 | grep -P "HTTP\\S+\\s[1-3][0-9][0-9]\\s+[\\w\\s]+\\s*$"'
                             sh 'curl -v http://localhost:8888/lab?token=jenkinstest 2>&1 | grep -P "HTTP\\S+\\s200\\s+[\\w\\s]+\\s*$"'
@@ -83,10 +109,10 @@ pipeline {
     }
     post {
         success {
-            slackSend(channel: '#infrastructure-build', username: 'jenkins', color: 'good', message: "Build ${env.JOB_NAME} ${env.BUILD_NUMBER} just finished successfull! (<${env.BUILD_URL}|Details>)")
+            slackSend(username: 'jenkins', color: 'good', message: "Build ${env.JOB_NAME} ${env.BUILD_NUMBER} just finished successfull! (<${env.BUILD_URL}|Details>)")
         }
         failure {
-            slackSend(channel: '#infrastructure-build', username: 'jenkins', color: 'danger', message: "Uh Oh! Build ${env.JOB_NAME} ${env.BUILD_NUMBER} had a failure! (<${env.BUILD_URL}|Find out why>).")
+            slackSend(username: 'jenkins', color: 'danger', message: "Uh Oh! Build ${env.JOB_NAME} ${env.BUILD_NUMBER} had a failure! (<${env.BUILD_URL}|Find out why>).")
         }
     }
 }
